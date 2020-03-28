@@ -1,0 +1,5 @@
+# Git ignore for gitconvex server
+
+node_modules/
+.env
+package-lock.json
