@@ -4,8 +4,6 @@ const app = express();
 const cors = require("cors");
 const { exec } = require("child_process");
 const util = require("util");
-const daoModule = require("./lodbDAO");
-
 const execPromise = util.promisify(exec);
 
 const graphqlSchema = require("./graphqlSchemaHealthcheck");
