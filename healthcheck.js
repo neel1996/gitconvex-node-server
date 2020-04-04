@@ -4,10 +4,11 @@ const app = express();
 const cors = require("cors");
 const { exec } = require("child_process");
 const util = require("util");
+const daoModule = require("./lodbDAO");
 
 const execPromise = util.promisify(exec);
 
-const graphqlSchema = require("./graphqlSchema");
+const graphqlSchema = require("./graphqlSchemaHealthcheck");
 
 app.use(cors());
 
@@ -24,6 +25,9 @@ app.use(
       },
       nodeCheck: async () => {
         return await checkStatus("NODE").then(res => JSON.stringify(res));
+      },
+      fetchRepo: async () => {
+        return await daoModule();
       }
     },
     graphiql: true

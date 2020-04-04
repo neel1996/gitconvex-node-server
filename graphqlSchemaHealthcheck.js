@@ -5,6 +5,7 @@ const graphqlSchema = new buildSchema(`
         osCheck: String!
         gitCheck: String!
         nodeCheck: String!
+        fetchRepo: String!
     }
 
     schema{
