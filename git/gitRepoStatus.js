@@ -84,16 +84,19 @@ const getGitStatus = async repoPath => {
   });
 
   //Module to get all git tracked files
+  var gitTrackedFileDetails = [];
 
-  await execPromised(
-    `${currentDir} git ls-tree --full-tree --name-only -d HEAD`
-  ).then(res => {
-    if (res && !res.stderr) {
-      gitTrackedFiles = res.stdout
-        .split("\n")
-        .filter(elm => (elm !== "" ? elm : undefined));
+  await execPromised(`${currentDir} git ls-tree --name-status HEAD | xargs file`).then(
+    res => {
+      const { stdout, stderr } = res;
+      if (res && !stderr) {
+        console.log(stdout.trim().split("\n"))
+        gitTrackedFiles = stdout.trim().split("\n");
+      } else {
+        console.log(stderr);
+      }
     }
-  });
+  );
 
   const gitRepoDetails = {
     gitRemoteData,
