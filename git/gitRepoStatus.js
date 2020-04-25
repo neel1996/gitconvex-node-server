@@ -2,7 +2,7 @@ const { exec } = require("child_process");
 const util = require("util");
 const execPromised = util.promisify(exec);
 
-const getGitStatus = async repoPath => {
+const getGitStatus = async (repoPath) => {
   console.log("Repo Path : " + repoPath);
 
   var gitRemoteData = "";
@@ -19,21 +19,21 @@ const getGitStatus = async repoPath => {
     "gitlab",
     "bitbucket",
     "azure",
-    "codecommit"
+    "codecommit",
   ];
 
   const currentDir = `cd ${repoPath};`;
 
   // Module to get git remote repo URL
   await execPromised(`${currentDir} git remote | xargs git remote get-url`)
-    .then(res => {
+    .then((res) => {
       if (res.stderr !== "") {
         console.log(stderr);
       } else {
         gitRemoteData = res.stdout.trim();
       }
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("Error GIT : " + err);
     });
 
@@ -44,7 +44,7 @@ const getGitStatus = async repoPath => {
       .split("/")
       [tempSplitLength - 1].split(".git")[0];
 
-    gitRemoteReference.forEach(entry => {
+    gitRemoteReference.forEach((entry) => {
       if (gitRemoteData.includes(entry)) {
         gitRemoteHost = entry;
       }
@@ -52,7 +52,7 @@ const getGitStatus = async repoPath => {
   }
 
   // Module to get all available branches
-  gitBranchList = await execPromised(`${currentDir} git branch`).then(res => {
+  gitBranchList = await execPromised(`${currentDir} git branch`).then((res) => {
     if (!res.stderr) {
       return res.stdout;
     }
@@ -60,16 +60,16 @@ const getGitStatus = async repoPath => {
 
   gitBranchList = gitBranchList
     .split("\n")
-    .map(entry => {
+    .map((entry) => {
       if (entry.includes("*")) {
         gitCurrentBranch = entry.trim().replace("*", "");
       }
       return entry.replace("*", "").trim();
     })
-    .filter(entry => (entry !== "" ? entry : null));
+    .filter((entry) => (entry !== "" ? entry : null));
 
   // Module to get total number of commits to current branch
-  await execPromised(`${currentDir} git log --oneline | wc -l`).then(res => {
+  await execPromised(`${currentDir} git log --oneline | wc -l`).then((res) => {
     if (res && !res.stderr) {
       gitTotalCommits = res.stdout.trim();
     }
@@ -77,7 +77,7 @@ const getGitStatus = async repoPath => {
 
   //Module to get latest git commit
 
-  await execPromised(`${currentDir} git log -1 --oneline`).then(res => {
+  await execPromised(`${currentDir} git log -1 --oneline`).then((res) => {
     if (res && !res.stderr) {
       gitLatestCommit = res.stdout.trim();
     }
@@ -86,17 +86,35 @@ const getGitStatus = async repoPath => {
   //Module to get all git tracked files
   var gitTrackedFileDetails = [];
 
-  await execPromised(`${currentDir} git ls-tree --name-status HEAD | xargs file`).then(
-    res => {
-      const { stdout, stderr } = res;
-      if (res && !stderr) {
-        console.log(stdout.trim().split("\n"))
-        gitTrackedFiles = stdout.trim().split("\n");
-      } else {
-        console.log(stderr);
-      }
+  await execPromised(
+    `${currentDir} git ls-tree --name-status HEAD | xargs file`
+  ).then((res) => {
+    const { stdout, stderr } = res;
+    if (res && !stderr) {
+      console.log(stdout.trim().split("\n"));
+      gitTrackedFiles = stdout.trim().split("\n");
+    } else {
+      console.log(stderr);
     }
-  );
+  });
+
+  //Module to fetch commit for each file and folder
+
+  var gitFileBasedCommit = [];
+
+  await execPromised(
+    `${currentDir} for i in \`git ls-tree --name-status HEAD\`; do git log -1 --oneline $i; done`
+  ).then((res) => {
+    const { stdout, stderr } = res;
+
+    if (res && !stderr) {
+      gitFileBasedCommit = stdout
+        .split("\n")
+        .filter((elm) => (elm ? elm : null));
+    } else {
+      console.log(stderr);
+    }
+  });
 
   const gitRepoDetails = {
     gitRemoteData,
@@ -106,7 +124,8 @@ const getGitStatus = async repoPath => {
     gitRemoteHost,
     gitTotalCommits,
     gitLatestCommit,
-    gitTrackedFiles
+    gitTrackedFiles,
+    gitFileBasedCommit,
   };
 
   console.log(gitRepoDetails);
