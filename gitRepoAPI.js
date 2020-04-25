@@ -1,31 +1,43 @@
-const fs = require('fs')
-const express = require('express')
-const app = express()
-const cors = require('cors')
+const fs = require("fs");
+const express = require("express");
+const app = express();
+const cors = require("cors");
 
-app.use(express.json())
-app.use(cors())
+const getGitStatus = require("./git/gitRepoStatus").getGitStatus;
 
-app.get("/gitrepodetails", (req, res) => {
+app.use(express.json());
+app.use(cors());
 
-    const repoId = req.body.repoId;
+app.get("/gitrepostatus", async (req, res) => {
+  const repoId = req.query.repoId;
+  const repoPath = getRepoPath(repoId);
 
-})
+  const repoDetails = getGitStatus(repoPath).then(result => {
+    if (result) {
+      res.json(result).status(201);
+    }
+  });
+
+  console.log("Received REPO DETAILS : " + repoDetails);
+});
 
 function getRepoPath(repoId) {
-    const dataEntry = fs.readFileSync('./database/repo-datastore.json');
-    
-    const repoObject = JSON.parse(dataEntry);
-    var repoPath = ""
+  const dataEntry = fs
+    .readFileSync("./database/repo-datastore.json")
+    .toString();
 
-    repoObject.forEach((entry) => {
-        let keys = Object.keys(entry)
+  const repoObject = JSON.parse(dataEntry);
+  var repoPath = "";
 
-        if(entry.id === repoId)
-        {
-            repoPath = entry.path
-        }
-    })
+  repoObject.forEach(entry => {
+    let keys = Object.keys(entry);
 
-    return repoPath;
+    if (entry.id == repoId) {
+      repoPath = entry.repoPath;
+    }
+  });
+
+  return repoPath;
 }
+
+module.exports = app;

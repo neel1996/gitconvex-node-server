@@ -2,6 +2,7 @@ const env = require("dotenv").config();
 const healtchehck = require("./healthcheck");
 const fetchRepo = require("./repofetchapi");
 const storeRepo = require("./addRepo");
+const gitRepo = require('./gitRepoAPI.js')
 
 healtchehck.listen(process.env.PORT_HEALTHCHECK || 5000, err => {
   if (err) {
@@ -25,3 +26,10 @@ storeRepo.listen(process.env.PORT_ADDREPO || 5002, err => {
   }
   console.log("API AddRepo started @ PORT : " + process.env.PORT_ADDREPO);
 });
+
+gitRepo.listen(process.env.PORT_GITREPO || 5003, err => {
+  if(err){
+    console.log("GitRepo API error occurred : " +err)
+  }
+  console.log("API GitRepo started @ PORT : " +process.env.PORT_GITREPO)
+})
