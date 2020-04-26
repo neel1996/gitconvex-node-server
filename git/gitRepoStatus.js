@@ -87,7 +87,7 @@ const getGitStatus = async (repoPath) => {
   var gitTrackedFileDetails = [];
 
   await execPromised(
-    `${currentDir} git ls-tree --name-status HEAD | xargs file`
+    `${currentDir} for i in \`git ls-tree --name-status HEAD\`; do if [ -f $i ] || [ -d $i ] ; then file $i; fi; done`
   ).then((res) => {
     const { stdout, stderr } = res;
     if (res && !stderr) {
@@ -103,7 +103,7 @@ const getGitStatus = async (repoPath) => {
   var gitFileBasedCommit = [];
 
   await execPromised(
-    `${currentDir} for i in \`git ls-tree --name-status HEAD\`; do git log -1 --oneline $i; done`
+    `${currentDir} for i in \`git ls-tree --name-status HEAD\`; do git log -1 --oneline $i; done 2> /dev/null`
   ).then((res) => {
     const { stdout, stderr } = res;
 
