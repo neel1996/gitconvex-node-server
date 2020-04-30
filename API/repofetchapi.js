@@ -7,7 +7,7 @@ const fs = require("fs");
 
 app.use(cors());
 
-const fetchRepoGQLSchema = require("./graphqlSchemaFetchRepo");
+const fetchRepoGQLSchema = require("../global/graphqlSchemaFetchRepo");
 
 app.use(
   "/fetchrepo",

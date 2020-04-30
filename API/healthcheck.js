@@ -6,7 +6,7 @@ const { exec } = require("child_process");
 const util = require("util");
 const execPromise = util.promisify(exec);
 
-const graphqlSchema = require("./graphqlSchemaHealthcheck");
+const graphqlSchema = require("../global/graphqlSchemaHealthcheck");
 
 app.use(cors());
 
