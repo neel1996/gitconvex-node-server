@@ -24,7 +24,7 @@ app.post("/fetchgitfiledifference", async (req, res) => {
 async function getGitFileDifference(repoId, fileName) {
   const repoPath = fetchRepopath.getRepoPath(repoId);
   return await execPromisified(
-    `cd ${repoPath}; git diff --stat ${fileName} && echo "SPLIT___LINE" && git diff -U$(wc -l ${fileName})`
+    `cd ${repoPath}; git diff --stat ${fileName} && echo "SPLIT___LINE" && git diff -U$(wc -l ${fileName} | xargs)`
   ).then((res) => {
     const { stdout, stderr } = res;
 

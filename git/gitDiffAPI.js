@@ -15,29 +15,29 @@ app.use(
   graphHTTP({
     schema: graphqlSchema,
     rootValue: {
-      gitDiffQuery: args => {
+      gitDiffQuery: (args) => {
         console.log("GQL Args : " + JSON.stringify(args));
         const { repoId } = args;
         const repoPath = fetchRepoPath.getRepoPath(repoId);
 
         var responseObject = {
           gitChangedFiles: getGitDiff(repoPath),
-          gitUntrackedFiles: getUntrackedFiles(repoPath)
+          gitUntrackedFiles: getUntrackedFiles(repoPath),
         };
 
         return responseObject;
-      }
+      },
     },
-    graphiql: true
+    graphiql: true,
   })
 );
 
 async function getGitDiff(repoPath) {
-  return await execPromosified(`cd ${repoPath}; git diff --raw`).then(res => {
+  return await execPromosified(`cd ${repoPath}; git diff --raw`).then((res) => {
     const { stdout, stderr } = res;
     var parsedEntry = stdout.trim().split("\n");
 
-    var gitDifference = parsedEntry.map(entry => {
+    var gitDifference = parsedEntry.map((entry) => {
       if (entry.split(/\s+/)) {
         let splitEntry = entry.split(/\s+/);
         return "" + splitEntry[4] + "," + splitEntry[5];
@@ -51,11 +51,18 @@ async function getGitDiff(repoPath) {
 async function getUntrackedFiles(repoPath) {
   return await execPromosified(
     `cd ${repoPath}; git ls-files --others --exclude-standard`
-  ).then(res => {
+  ).then((res) => {
     const { stdout, stderr } = res;
-    var parsedEntry = stdout.trim().split("\n");
+    var parsedEntry = stdout
+      .trim()
+      .split("\n")
+      .filter((item) => {
+        if (item) {
+          return item;
+        }
+      });
 
-    var gitUntrackedFiles = parsedEntry.map(entry => {
+    var gitUntrackedFiles = parsedEntry.map((entry) => {
       let fileDirArray = [];
       if (entry.includes("/")) {
         let splitEntry = entry.split("/");
