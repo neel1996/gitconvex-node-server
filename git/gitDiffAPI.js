@@ -42,8 +42,6 @@ async function getGitDiff(repoPath) {
         let splitEntry = entry.split(/\s+/);
         if (splitEntry[4] && splitEntry[5]) {
           return "" + splitEntry[4] + "," + splitEntry[5];
-        } else {
-          return undefined;
         }
       }
     });
