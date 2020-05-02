@@ -46,7 +46,7 @@ async function getGitDiff(repoPath) {
       }
     });
 
-    return gitDifference;
+    return gitDifference.filter((entry) => (entry ? entry : ""));
   });
 }
 
