@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const getRepoPath = repoId => {
+const getRepoPath = (repoId) => {
   const dataEntry = fs
     .readFileSync("./database/repo-datastore.json")
     .toString();
@@ -8,9 +8,7 @@ const getRepoPath = repoId => {
   const repoObject = JSON.parse(dataEntry);
   var repoPath = "";
 
-  repoObject.forEach(entry => {
-    let keys = Object.keys(entry);
-
+  repoObject.forEach((entry) => {
     if (entry.id == repoId) {
       repoPath = entry.repoPath;
     }

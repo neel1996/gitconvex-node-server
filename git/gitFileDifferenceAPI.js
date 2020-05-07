@@ -1,25 +1,15 @@
-const express = require("express");
-const app = express();
-const cors = require("cors");
-app.use(cors());
-app.use(express.json());
-
 const fetchRepopath = require("../global/fetchGitRepoPath");
 const { exec } = require("child_process");
 const util = require("util");
 const execPromisified = util.promisify(exec);
 
-app.post("/fetchgitfiledifference", async (req, res) => {
-  const { repoId, fileName } = req.body;
-
+async function gitFileDifferenceHandler(repoId, fileName) {
   if (repoId && fileName) {
     var differencePayload = await getGitFileDifference(repoId, fileName);
 
-    res.json({
-      differencePayload,
-    });
+    return differencePayload;
   }
-});
+}
 
 async function getGitFileDifference(repoId, fileName) {
   const repoPath = fetchRepopath.getRepoPath(repoId);
@@ -41,4 +31,4 @@ async function getGitFileDifference(repoId, fileName) {
   });
 }
 
-module.exports = app;
+module.exports.gitFileDifferenceHandler = gitFileDifferenceHandler;

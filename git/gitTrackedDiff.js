@@ -1,36 +1,18 @@
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const graphHTTP = require("express-graphql");
 const { exec } = require("child_process");
 const util = require("util");
 const execPromosified = util.promisify(exec);
 const fetchRepoPath = require("../global/fetchGitRepoPath");
-const graphqlSchema = require("../global/gqlSchemaRepoFileDiff");
 
-app.use(cors());
+function gitTrackedDiff(repoId) {
+  const repoPath = fetchRepoPath.getRepoPath(repoId);
 
-app.use(
-  "/fetchgitdiff",
-  graphHTTP({
-    schema: graphqlSchema,
-    rootValue: {
-      gitDiffQuery: (args) => {
-        console.log("GQL Args : " + JSON.stringify(args));
-        const { repoId } = args;
-        const repoPath = fetchRepoPath.getRepoPath(repoId);
+  var responseObject = {
+    gitChangedFiles: getGitDiff(repoPath),
+    gitUntrackedFiles: getUntrackedFiles(repoPath),
+  };
 
-        var responseObject = {
-          gitChangedFiles: getGitDiff(repoPath),
-          gitUntrackedFiles: getUntrackedFiles(repoPath),
-        };
-
-        return responseObject;
-      },
-    },
-    graphiql: true,
-  })
-);
+  return responseObject;
+}
 
 async function getGitDiff(repoPath) {
   return await execPromosified(`cd ${repoPath}; git diff --raw`).then((res) => {
@@ -82,4 +64,4 @@ async function getUntrackedFiles(repoPath) {
   });
 }
 
-module.exports = app;
+module.exports.gitTrackedDiff = gitTrackedDiff;
