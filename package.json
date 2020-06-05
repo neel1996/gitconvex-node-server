@@ -31,9 +31,6 @@
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "graphiql": "^0.17.5",
-    "graphql": "^14.6.0",
-    "loadash": "^1.0.0",
-    "lowdb": "^1.0.0",
-    "sqlite3": "^4.1.1"
+    "graphql": "^14.6.0"
   }
 }

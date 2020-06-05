@@ -61,7 +61,7 @@ module.exports.gitChangeTrackerFunction = gitChangeTrackerFunction = async (
   parsedPayload
 ) => {
   let { repoId } = JSON.parse(parsedPayload);
-  const gitChangeResults = gitTrackedDiff(repoId);
+  const gitChangeResults = await gitTrackedDiff(repoId);
   return {
     gitChanges: {
       ...gitChangeResults,
