@@ -4,6 +4,7 @@ const { addRepoHandler } = require("../API/addRepoApi");
 const { getGitRepoStatus } = require("../git/gitRepoAPI");
 const { gitTrackedDiff } = require("../git/gitTrackedDiff");
 const { gitFileDifferenceHandler } = require("../git/gitFileDifferenceAPI");
+const { gitCommitLogHandler } = require("../git/gitCommitLogsAPI");
 
 module.exports.healthCheckFunction = healthCheckFunction = async (payload) => {
   const hcPayload = await healthCheckHandler().then((res) => res);
@@ -46,6 +47,26 @@ module.exports.addRepoFunction = addRepoFunction = async (parsedPayload) => {
   }
 };
 
+module.exports.gitCommitLogsFunction = gitCommitLogsFunction = async (
+  parsedPayload
+) => {
+  const { repoId } = JSON.parse(parsedPayload);
+  if (repoId) {
+    console.log(await gitCommitLogHandler(repoId));
+    return {
+      gitCommitLogs: {
+        ...(await gitCommitLogHandler(repoId)),
+      },
+    };
+  } else {
+    return {
+      gitCommitLogs: {
+        commits: [],
+      },
+    };
+  }
+};
+
 module.exports.repoDetailsFunction = repoDetailsFunction = async (
   parsedPayload
 ) => {
@@ -79,6 +100,8 @@ module.exports.gitFileDiffFunction = gitFileDiffFunction = async (
   ).then((res) => res);
   console.log(gitFileLineChanges);
   return {
-    gitFileLineChanges: { ...gitFileLineChanges },
+    gitFileLineChanges: {
+      ...gitFileLineChanges,
+    },
   };
 };

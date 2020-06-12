@@ -10,6 +10,7 @@ const {
   REPO_DETAILS,
   REPO_TRACKED_DIFF,
   REPO_FILE_DIFF,
+  COMMIT_LOGS,
 } = require("./globalRouteStore");
 
 const graphqlHTTP = require("express-graphql");
@@ -23,6 +24,7 @@ const {
   gitFileDiffFunction,
   healthCheckFunction,
   repoDetailsFunction,
+  gitCommitLogsFunction,
 } = require("./globalFunctionStore");
 
 app.use(
@@ -33,6 +35,8 @@ app.use(
     rootValue: {
       gitConvexApi: async (args) => {
         const { route, payload } = args;
+
+        console.log("Api Route : " + route + "\nAPI Payload : " + payload);
 
         let parsedPayload = {};
 
@@ -53,6 +57,8 @@ app.use(
             return gitChangeTrackerFunction(parsedPayload);
           case REPO_FILE_DIFF:
             return gitFileDiffFunction(parsedPayload);
+          case COMMIT_LOGS:
+            return gitCommitLogsFunction(parsedPayload);
           default:
             return { message: "Query Termination" };
         }

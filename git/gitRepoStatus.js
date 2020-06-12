@@ -12,7 +12,7 @@ const getGitStatus = async repoPath => {
 
   let gitRemoteData = "";
   let gitBranchList = [];
-  let gitCurrentBranch = "";
+  let gitCurrentBranch = "No Active Branch";
   let gitRemoteHost = "";
   let gitRepoName = "";
   let gitTotalCommits = "";
@@ -91,9 +91,7 @@ const getGitStatus = async repoPath => {
     .map(entry => {
       if (entry.includes("*")) {
         gitCurrentBranch = entry.trim().replace("*", "");
-      } else {
-        gitCurrentBranch = "No Branches"
-      }
+      } 
       return entry.replace("*", "").trim();
     })
     .filter(entry => (entry !== "" ? entry : null));

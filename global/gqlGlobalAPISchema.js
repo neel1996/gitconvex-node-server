@@ -13,6 +13,7 @@ const globalAPISchema = new buildSchema(
             gitRepoStatus: gitRepoStatusResults!
             gitChanges: gitChangeResults!
             gitFileLineChanges: gitFileLineChangeResults!
+            gitCommitLogs: gitCommitLogResults!
         }
 
         type healthCheckResults{
@@ -29,6 +30,17 @@ const globalAPISchema = new buildSchema(
 
         type addRepoResults{
             message: String
+        }
+
+        type gitCommits{
+            hash: String,
+            author: String,
+            commitTime: String,
+            commitMessage: String,
+        }
+
+        type gitCommitLogResults{
+            commits: [gitCommits]
         }
 
         type gitRepoStatusResults{
