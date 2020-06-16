@@ -11,6 +11,7 @@ const {
   REPO_TRACKED_DIFF,
   REPO_FILE_DIFF,
   COMMIT_LOGS,
+  GIT_STAGED_FILES,
 } = require("./globalRouteStore");
 
 const graphqlHTTP = require("express-graphql");
@@ -25,6 +26,7 @@ const {
   healthCheckFunction,
   repoDetailsFunction,
   gitCommitLogsFunction,
+  gitGetStagedFiles,
 } = require("./globalFunctionStore");
 
 app.use(
@@ -59,6 +61,8 @@ app.use(
             return gitFileDiffFunction(parsedPayload);
           case COMMIT_LOGS:
             return gitCommitLogsFunction(parsedPayload);
+          case GIT_STAGED_FILES:
+            return gitGetStagedFiles(parsedPayload);
           default:
             return { message: "Query Termination" };
         }

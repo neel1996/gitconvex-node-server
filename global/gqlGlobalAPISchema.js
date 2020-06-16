@@ -14,6 +14,7 @@ const globalAPISchema = new buildSchema(
             gitChanges: gitChangeResults!
             gitFileLineChanges: gitFileLineChangeResults!
             gitCommitLogs: gitCommitLogResults!
+            gitStagedFiles: gitStagedFileResults!
         }
 
         type healthCheckResults{
@@ -64,6 +65,10 @@ const globalAPISchema = new buildSchema(
         type gitFileLineChangeResults{
             diffStat: [String]
             fileDiff: [String]
+        }
+
+        type gitStagedFileResults{
+            stagedFiles: [String]
         }
 
         schema{

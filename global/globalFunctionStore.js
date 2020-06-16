@@ -5,6 +5,7 @@ const { getGitRepoStatus } = require("../git/gitRepoAPI");
 const { gitTrackedDiff } = require("../git/gitTrackedDiff");
 const { gitFileDifferenceHandler } = require("../git/gitFileDifferenceAPI");
 const { gitCommitLogHandler } = require("../git/gitCommitLogsAPI");
+const { getStagedFiles } = require("../git/gitGetStagedFilesAPI");
 
 module.exports.healthCheckFunction = healthCheckFunction = async (payload) => {
   const hcPayload = await healthCheckHandler().then((res) => res);
@@ -104,4 +105,26 @@ module.exports.gitFileDiffFunction = gitFileDiffFunction = async (
       ...gitFileLineChanges,
     },
   };
+};
+
+module.exports.gitGetStagedFiles = gitGetStagedFiles = async (payload) => {
+  console.log("In Payload :" + payload);
+  const { repoId } = JSON.parse(payload);
+  const stagedFiles = await getStagedFiles(repoId);
+
+  console.log(stagedFiles);
+
+  if (stagedFiles) {
+    return {
+      gitStagedFiles: {
+        stagedFiles: [...stagedFiles],
+      },
+    };
+  } else {
+    return {
+      gitStagedFiles: {
+        stagedFiles: [],
+      },
+    };
+  }
 };
