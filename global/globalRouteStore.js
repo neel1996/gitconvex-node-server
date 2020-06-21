@@ -6,3 +6,4 @@ module.exports.REPO_DETAILS = "REPO_DETAILS";
 module.exports.REPO_TRACKED_DIFF = "REPO_TRACKED_DIFF";
 module.exports.REPO_FILE_DIFF = "REPO_FILE_DIFF";
 module.exports.GIT_STAGED_FILES = "GIT_STAGED_FILES";
+module.exports.GIT_UNPUSHED_COMMITS = "GIT_UNPUSHED_COMMITS";

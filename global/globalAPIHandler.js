@@ -12,6 +12,7 @@ const {
   REPO_FILE_DIFF,
   COMMIT_LOGS,
   GIT_STAGED_FILES,
+  GIT_UNPUSHED_COMMITS,
 } = require("./globalRouteStore");
 
 const graphqlHTTP = require("express-graphql");
@@ -27,6 +28,11 @@ const {
   repoDetailsFunction,
   gitCommitLogsFunction,
   gitGetStagedFiles,
+  gitUnpushedCommits,
+  gitSetBranch,
+  gitStageAllItems,
+  gitCommitChanges,
+  gitPushToRemote,
 } = require("./globalFunctionStore");
 
 app.use(
@@ -63,9 +69,28 @@ app.use(
             return gitCommitLogsFunction(parsedPayload);
           case GIT_STAGED_FILES:
             return gitGetStagedFiles(parsedPayload);
+          case GIT_UNPUSHED_COMMITS:
+            return gitUnpushedCommits(parsedPayload);
           default:
             return { message: "Query Termination" };
         }
+      },
+      setBranch: async (args) => {
+        const { repoId, branch } = args;
+        console.log(args);
+        return await gitSetBranch(repoId, branch);
+      },
+      stageAllItems: async (args) => {
+        const { repoId } = args;
+        return await gitStageAllItems(repoId);
+      },
+      commitChanges: async (args) => {
+        const { repoId, commitMessage } = args;
+        return await gitCommitChanges(repoId, commitMessage);
+      },
+      pushToRemote: async (args) => {
+        const { repoId, remoteHost, branch } = args;
+        return await gitPushToRemote(repoId, remoteHost, branch);
       },
     },
   })

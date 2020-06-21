@@ -15,6 +15,7 @@ const globalAPISchema = new buildSchema(
             gitFileLineChanges: gitFileLineChangeResults!
             gitCommitLogs: gitCommitLogResults!
             gitStagedFiles: gitStagedFileResults!
+            gitUnpushedCommits: gitUnpushedCommitResults!
         }
 
         type healthCheckResults{
@@ -38,6 +39,10 @@ const globalAPISchema = new buildSchema(
             author: String,
             commitTime: String,
             commitMessage: String,
+        }
+
+        type gitUnpushedCommitResults{
+            commits: [String]
         }
 
         type gitCommitLogResults{
@@ -71,8 +76,21 @@ const globalAPISchema = new buildSchema(
             stagedFiles: [String]
         }
 
+        type gitUnpushedCommitResult{
+            gitUnpushedCommits: [String]
+        }
+
+        type GitConvexMutation{
+            setBranch(repoId: String!, branch: String!): String!
+            stageItem(repoId: String!, item: String!): String!
+            stageAllItems(repoId: String): String!
+            commitChanges(repoId: String!, commitMessage: String!): String!
+            pushToRemote(repoId: String!, remoteHost: String!, branch: String!): String!
+        }
+
         schema{
             query: GitConvexAPI
+            mutation: GitConvexMutation
         }
 
     `

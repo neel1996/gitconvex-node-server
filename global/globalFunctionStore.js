@@ -6,6 +6,11 @@ const { gitTrackedDiff } = require("../git/gitTrackedDiff");
 const { gitFileDifferenceHandler } = require("../git/gitFileDifferenceAPI");
 const { gitCommitLogHandler } = require("../git/gitCommitLogsAPI");
 const { getStagedFiles } = require("../git/gitGetStagedFilesAPI");
+const { gitGetUnpushedCommits } = require("../git/gitGetUnpushedCommits");
+const { gitSetBranchApi } = require("../git/gitSetBranch.js");
+const { gitStageAllItemsApi } = require("../git/gitStageAllItemsAPI");
+const { gitCommitChangesApi } = require("../git/gitCommitChangesAPI");
+const { gitPushToRemoteApi } = require("../git/gitPushToRemoteAPI");
 
 module.exports.healthCheckFunction = healthCheckFunction = async (payload) => {
   const hcPayload = await healthCheckHandler().then((res) => res);
@@ -108,7 +113,6 @@ module.exports.gitFileDiffFunction = gitFileDiffFunction = async (
 };
 
 module.exports.gitGetStagedFiles = gitGetStagedFiles = async (payload) => {
-  console.log("In Payload :" + payload);
   const { repoId } = JSON.parse(payload);
   const stagedFiles = await getStagedFiles(repoId);
 
@@ -127,4 +131,46 @@ module.exports.gitGetStagedFiles = gitGetStagedFiles = async (payload) => {
       },
     };
   }
+};
+
+module.exports.gitUnpushedCommits = gitUnpushedCommits = async (payload) => {
+  const { repoId, remoteName } = JSON.parse(payload);
+  const unPushedCommits = await gitGetUnpushedCommits(repoId, remoteName);
+
+  if (unPushedCommits) {
+    return {
+      gitUnpushedCommits: {
+        commits: unPushedCommits,
+      },
+    };
+  } else {
+    return {
+      gitUnpushedCommits: {
+        commits: [],
+      },
+    };
+  }
+};
+
+module.exports.gitSetBranch = gitSetBranch = async (repoId, branch) => {
+  return await gitSetBranchApi(repoId, branch);
+};
+
+module.exports.gitStageAllItems = gitStageAllItems = async (repoId) => {
+  return await gitStageAllItemsApi(repoId);
+};
+
+module.exports.gitCommitChanges = gitCommitChanges = async (
+  repoId,
+  commitMessage
+) => {
+  return await gitCommitChangesApi(repoId, commitMessage);
+};
+
+module.exports.gitPushToRemote = gitPushToRemote = async (
+  repoId,
+  remoteHost,
+  branch
+) => {
+  return await gitPushToRemoteApi(repoId, remoteHost, branch);
 };

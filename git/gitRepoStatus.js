@@ -3,6 +3,7 @@ const { exec } = require("child_process");
 const fs = require("fs");
 
 const util = require("util");
+const { stderr } = require("process");
 const execPromised = util.promisify(exec);
 
 const getGitStatus = async (repoPath) => {
@@ -37,29 +38,34 @@ const getGitStatus = async (repoPath) => {
       }
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
       isGitLogAvailable = false;
       return isGitLogAvailable;
     });
 
   // Module to get git remote repo URL
-  isGitLogAvailable &&
-    (await execPromised(
-      `${currentDir} if [ ! -z \`git remote\` ]; then git remote | xargs git remote get-url; else echo "NO_REMOTE"; fi`
-    )
-      .then((res) => {
-        const { stdout, stderr } = res;
-        if (stderr !== "") {
-          console.log(stderr);
-          gitRemoteData = "NO_REMOTE";
-        } else {
-          gitRemoteData = res.stdout.trim();
-        }
-      })
-      .catch((err) => {
-        console.log("Error GIT : " + err);
+  await execPromised(
+    `${currentDir} if [ ! -z "\`git remote\`" ]; then git remote | xargs -L 1 git remote get-url; else echo "NO_REMOTE"; fi`
+  )
+    .then((res) => {
+      const { stdout, stderr } = res;
+      if (stderr !== "") {
+        console.log(stderr);
         gitRemoteData = "NO_REMOTE";
-      }));
+      } else {
+        gitRemoteData = stdout.trim();
+        console.log("REMOTE : " + gitRemoteData);
+        if (gitRemoteData.split("\n").length > 0) {
+          const splitRemote = gitRemoteData.split("\n");
+          gitRemoteData = splitRemote.join("||");
+          console.log(gitRemoteData);
+        }
+      }
+    })
+    .catch((err) => {
+      console.log("Error GIT : " + err);
+      gitRemoteData = "NO_REMOTE";
+    });
 
   // Module to get Git actual repo name
   if (gitRemoteData && gitRemoteData !== "NO_REMOTE") {
@@ -81,11 +87,17 @@ const getGitStatus = async (repoPath) => {
   // Module to get all available branches
   gitBranchList =
     isGitLogAvailable &&
-    (await execPromised(`${currentDir} git branch`).then((res) => {
-      if (!res.stderr) {
-        return res.stdout;
-      }
-    }));
+    (await execPromised(`${currentDir} git branch`)
+      .then((res) => {
+        if (!res.stderr) {
+          return res.stdout;
+        } else {
+          console.log(res.stderr);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      }));
 
   gitBranchList =
     gitBranchList.length > 0 &&
@@ -94,10 +106,13 @@ const getGitStatus = async (repoPath) => {
       .map((entry) => {
         if (entry.includes("*")) {
           gitCurrentBranch = entry.trim().replace("*", "");
+          return;
         }
-        return entry.replace("*", "").trim();
+        return entry.trim();
       })
       .filter((entry) => (entry !== "" ? entry : null));
+
+  gitBranchList = [gitCurrentBranch, ...gitBranchList];
 
   // Module to get total number of commits to current branch
   isGitLogAvailable &&

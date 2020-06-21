@@ -14,6 +14,7 @@ const getStagedFiles = async (repoId) => {
 
       if (!stderr && stdout) {
         const stagedFiles = stdout.trim().split("\n");
+        console.log(stagedFiles);
         return stagedFiles;
       } else {
         console.log(stderr);
