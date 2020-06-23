@@ -1,0 +1,33 @@
+name: Gitconvex UI pipeline
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 13.x, 12.x, 10.0x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install
+    - name: Droplet commands
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DROPLET_HOST }}
+        username: ${{ secrets.DROPLET_USERNAME }}
+        key: ${{ secrets.DROPLET_PRIVATE_KEY }}
+        port: ${{ secrets.DROPLET_PORT }}
+        script: |
+          sh /opt/workroom/github-deploy.sh gitconvex-server
