@@ -39,7 +39,7 @@ const gitFetchApi = async (repoId) => {
 
 const gitPullApi = async (repoId) => {
   return await execPromisified(
-    `cd ${fetchRepopath.getRepoPath(repoId)}; git diff --name-only`
+    `cd ${fetchRepopath.getRepoPath(repoId)}; git pull`
   )
     .then(async ({ stdout, stderr }) => {
       if (stdout && !stderr) {
