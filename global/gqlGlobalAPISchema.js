@@ -57,6 +57,7 @@ const globalAPISchema = new buildSchema(
             gitRemoteData: String
             gitRepoName: String
             gitBranchList: [String]
+            gitAllBranchList: [String]
             gitCurrentBranch: String
             gitRemoteHost: String
             gitTotalCommits: Int
