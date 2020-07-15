@@ -20,12 +20,14 @@ The depedency packages used by this project can be found [here](https://github.c
 │   ├── healthcheckApi.js
 │   └── settingsApi.js
 ├── LICENSE
+├── README.md
 ├── database
 │   └── repo-datastore.json
 ├── env_config.json
 ├── git
 │   ├── gitAddBranchApi.js
 │   ├── gitAddRemoteApi.js
+│   ├── gitBranchDeleteApi.js
 │   ├── gitCommitChangesAPI.js
 │   ├── gitCommitLogsAPI.js
 │   ├── gitFetchPullApi.js
@@ -49,6 +51,7 @@ The depedency packages used by this project can be found [here](https://github.c
 │   └── gqlGlobalAPISchema.js
 ├── package.json
 └── server.js
+
 
 ```
 ## Contribute!
