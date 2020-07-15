@@ -109,6 +109,7 @@ const globalAPISchema = new buildSchema(
             updateRepoDataFile(newDbFile: String!): String!
             deleteRepo(repoId: String!): deleteRepoStatus!
             addRemoteRepo(repoId: String!, remoteName: String!, remoteUrl: String!): String!
+            deleteBranch(repoId: String!, branchName: String!, forceFlag: Boolean!): deleteBranchStatus!
         }
 
         type gitFetchStatus{
@@ -124,6 +125,11 @@ const globalAPISchema = new buildSchema(
         type deleteRepoStatus{
             status: String!
             repoId: String
+        }
+
+        type deleteBranchStatus{
+            status: String!,
+            deletionResponse: String
         }
 
         schema{

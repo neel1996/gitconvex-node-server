@@ -110,9 +110,6 @@ const getGitStatus = async (repoPath) => {
         if (stdout && !stderr) {
           let localBranchList = stdout.trim().split("\n");
           localBranchList = localBranchList.map((branch) => {
-            if (branch.includes("*")) {
-              return branch.replace("*", "");
-            }
             return branch;
           });
           return localBranchList;
