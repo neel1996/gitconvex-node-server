@@ -19,6 +19,7 @@ const gitDeleteBranchApi = async (repoId, branchName, forceFlag) => {
   })
     .then(({ stdout, stderr }) => {
       if (stdout && !stderr) {
+        console.log(stdout);
         return {
           status: "BRANCH_DELETE_SUCCESS",
           deletionResponse: stdout.trim().split("\n"),
