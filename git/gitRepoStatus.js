@@ -34,6 +34,7 @@ const getGitStatus = async (repoPath) => {
       return isGitLogAvailable;
     })
     .catch((err) => {
+      console.log(err);
       isGitLogAvailable = false;
       return isGitLogAvailable;
     });

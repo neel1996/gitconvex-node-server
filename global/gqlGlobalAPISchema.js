@@ -43,6 +43,8 @@ const globalAPISchema = new buildSchema(
             author: String,
             commitTime: String,
             commitMessage: String,
+            commitRelativeTime: String
+            commitFilesCount: Int
         }
 
         type gitUnpushedCommitResults{
