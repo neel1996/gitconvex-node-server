@@ -1,7 +1,7 @@
 name: Gitconvex Server pipeline
 
 on:
-  push:
+  pull_request:
     branches: [master]
 
 jobs:
@@ -20,13 +20,4 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm install --global jest
-      - run: npm run test
-      - name: Droplet commands
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.DROPLET_HOST }}
-          username: ${{ secrets.DROPLET_USERNAME }}
-          key: ${{ secrets.DROPLET_PRIVATE_KEY }}
-          port: ${{ secrets.DROPLET_PORT }}
-          script: |
-            sh /opt/workroom/github-deploy.sh gitconvex-server
+      - run: npm run test && echo "Tests completed!"
