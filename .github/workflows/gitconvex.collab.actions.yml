@@ -1,4 +1,4 @@
-name: Gitconvex Server pipeline
+name: Gitconvex Server collaboration pipeline
 
 on:
   pull_request:
@@ -20,4 +20,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm install --global jest
+      - run: echo '[{\"id\": \"1593690333568\",\"repoName\": \"JEST_REPO\",\"repoPath\": \"/opt/workroom/Projects/gitconvex\"}]' > ./database/repo-datastore.json
       - run: npm run test && echo "Tests completed!"
