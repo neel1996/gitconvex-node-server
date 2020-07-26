@@ -10,9 +10,13 @@ The depedency packages used by this project can be found [here](https://github.c
 - **Server API** - The project uses [GraphQL](https://github.com/graphql) API for handling client requests. The graphiql console is enabled which allows direct API invokation by accessing the API endpoints
 - **Command Line Process** - [child_process](https://nodejs.org/api/child_process.html) is used for executing git commands in the back end
 
-```
+### Guidelines 
+
+Fork the repo and raise a new Pull Request to merge your branch with the `development` branch of this repo. Once the review is complete, the PR will be approved and merged with `master`
+
 ## Project directory tree
 
+```
 ├── API
 │   ├── addRepoApi.js
 │   ├── deleteRepoApi.js
@@ -29,6 +33,7 @@ The depedency packages used by this project can be found [here](https://github.c
 │   ├── gitAddRemoteApi.js
 │   ├── gitBranchDeleteApi.js
 │   ├── gitCommitChangesAPI.js
+│   ├── gitCommitFilesApi.js
 │   ├── gitCommitLogsAPI.js
 │   ├── gitFetchPullApi.js
 │   ├── gitFileDifferenceAPI.js
@@ -49,11 +54,14 @@ The depedency packages used by this project can be found [here](https://github.c
 │   ├── globalFunctionStore.js
 │   ├── globalRouteStore.js
 │   └── gqlGlobalAPISchema.js
+├── jsConfig.json
 ├── package.json
-└── server.js
-
-
+├── server.js
+└── tests
+    ├── addRepoApi.test.js
+    ├── deleteRepoApi.test.js
+    ├── fetchRepoApi.test.js
+    └── healthCheckApi.test.js
+    
 ```
-## Contribute!
 
-If you are interested in contributing to the project, fork the repo, submit a PR. Currently its just a insgle dev working on the project. Hopefully will get couple more on board to maintain the repo
