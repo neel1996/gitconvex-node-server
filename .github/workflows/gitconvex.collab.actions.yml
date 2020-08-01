@@ -20,5 +20,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm install --global jest
+      - run: mkdir -p ./database && touch ./database/repo-datastore.json
       - run: echo '[{"id":"1593690333568","repoName":"JEST_REPO","repoPath":"."}]' > ./database/repo-datastore.json
       - run: npm run test && echo "Tests completed!"
