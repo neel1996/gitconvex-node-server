@@ -2,6 +2,6 @@
 
 node_modules/
 package-lock.json
-database/
+database/*
 LICENSE
 env_config.json
