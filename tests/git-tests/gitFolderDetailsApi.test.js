@@ -1,26 +1,9 @@
 const { gitFetchFolderContentApi } = require("../../git/gitFolderDetailsApi");
-const { fetchRepoHandler } = require("../../API/fetchRepoApi");
+const { getSelectedRepoId } = require("../common/fetchTestRepoId");
 
 test("Test module for - gitFolderDetailsApi", async () => {
-  const fetchResults = await fetchRepoHandler().then((res) => res);
-  repoIdList = await fetchResults.repoName.map((name, index) => {
-    if (name === "JEST_REPO") {
-      return fetchResults.repoId[index];
-    } else {
-      return null;
-    }
-  });
-
-  let selectedId = "";
-
-  repoIdList.forEach((item) => {
-    if (item) {
-      selectedId = item;
-    }
-  });
-
   const { gitFileBasedCommit, gitTrackedFiles } = await (
-    await gitFetchFolderContentApi(selectedId, "")
+    await gitFetchFolderContentApi(await getSelectedRepoId(), "")
   ).gitFolderContent;
 
   expect(typeof gitFileBasedCommit).toBe("object");
