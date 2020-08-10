@@ -7,7 +7,7 @@ const fetchRepopath = require("../global/fetchGitRepoPath");
 /**
  * @param  {String} repoId
  * @param  {String} branchName
- * @returns {Object} - adds a new branch and sends the status as JSON {String}
+ * @returns {String} - adds a new branch and sends the status as JSON {String}
  */
 
 const gitAddBranchApi = async (repoId, branchName) => {

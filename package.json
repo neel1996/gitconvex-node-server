@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Git client for linux servers",
   "main": "index.js",
+  "bin":{
+    "gitconvex": "server.js"
+  },
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
