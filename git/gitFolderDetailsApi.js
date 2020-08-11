@@ -83,7 +83,7 @@ const gitFetchFolderContentApi = async (repoId, directoryName) => {
       return {
         gitFolderContent: {
           gitTrackedFiles: [],
-          gitFileBasedCommit: gitCommits,
+          gitFileBasedCommit: [],
         },
       };
     }
