@@ -31,7 +31,12 @@ const gitPushToRemoteApi = async (repoId, remoteHost, branch) => {
 
         const remoteName = filteredRemote.trim().split(/\s/gi)[0];
 
-        const pushCommand = `git push -u ${remoteName} ${branch}`;
+        if (branch.match(/[^a-zA-Z0-9-_.:~@$^/]/gi)) {
+          console.log(new Error("Invalid remote branch string!"));
+          return "PUSH_FAILED";
+        }
+
+        const pushCommand = `git push -u "${remoteName}" "${branch}"`;
 
         return await execPromisified(`${pushCommand}`, {
           cwd: fetchRepopath.getRepoPath(repoId),

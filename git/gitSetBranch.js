@@ -12,6 +12,11 @@ const fetchRepopath = require("../global/fetchGitRepoPath");
  */
 
 const gitSetBranchApi = async (repoId, branch) => {
+  if (branch.match(/[^a-zA-Z0-9-_.:~@$^/]/gi)) {
+    console.log("Invalid branch string!");
+    return "BRANCH_SET_FAILED";
+  }
+
   return await execPromisified(`git checkout ${branch}`, {
     cwd: fetchRepopath.getRepoPath(repoId),
     windowsHide: true,

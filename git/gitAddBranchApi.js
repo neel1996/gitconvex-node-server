@@ -11,18 +11,27 @@ const fetchRepopath = require("../global/fetchGitRepoPath");
  */
 
 const gitAddBranchApi = async (repoId, branchName) => {
-  return await execPromisified(`git checkout -b ${branchName}`, {
-    cwd: fetchRepopath.getRepoPath(repoId),
-    windowsHide: true,
-  })
-    .then((res) => {
-      console.log(res);
-      return "BRANCH_CREATION_SUCCESS";
+  try {
+    if(branchName.match(/[^a-zA-Z0-9-_.:~@$^/]/gi)){
+      throw new Error("Invalid branch name string")
+    }
+
+    return await execPromisified(`git checkout -b "${branchName}"`, {
+      cwd: fetchRepopath.getRepoPath(repoId),
+      windowsHide: true,
     })
-    .catch((err) => {
-      console.log(err);
-      return "BRANCH_ADD_FAILED";
-    });
+      .then((res) => {
+        console.log(res);
+        return "BRANCH_CREATION_SUCCESS";
+      })
+      .catch((err) => {
+        console.log(err);
+        return "BRANCH_ADD_FAILED";
+      });
+  } catch (err) {
+    console.log(err);
+    return "BRANCH_ADD_FAILED";
+  }
 };
 
 module.exports.gitAddBranchApi = gitAddBranchApi;
