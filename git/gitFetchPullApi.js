@@ -53,7 +53,7 @@ const gitFetchApi = async (repoId, remoteUrl = "", remoteBranch = "") => {
 
   if (
     remoteUrl.match(/[^a-zA-Z0-9-_.~@#$%:/]/gi) ||
-    remoteBranch.match(/[^a-zA-Z0-9-_.:~@$^/]/gi)
+    remoteBranch.match(/[^a-zA-Z0-9-_.:~@$^/\\s\\r\\n]/gi)
   ) {
     invalidInput = true;
   }
@@ -132,7 +132,7 @@ const gitPullApi = async (repoId, remoteUrl, remoteBranch) => {
     };
   }
 
-  if (remoteBranch.match(/[^a-zA-Z0-9-_.:~@$^/]/gi)) {
+  if (remoteBranch.match(/[^a-zA-Z0-9-_.:~@$^/\\s\\r\\n]/gi)) {
     return {
       status: "PULL_ERROR",
     };

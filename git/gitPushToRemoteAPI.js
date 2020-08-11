@@ -31,8 +31,12 @@ const gitPushToRemoteApi = async (repoId, remoteHost, branch) => {
 
         const remoteName = filteredRemote.trim().split(/\s/gi)[0];
 
-        if (branch.match(/[^a-zA-Z0-9-_.:~@$^/]/gi)) {
-          console.log(new Error("Invalid remote branch string!"));
+        if (branch.match(/[^a-zA-Z0-9-_.:~@$^/\\s\\n\\r]/gi)) {
+          console.log(
+            new Error("Invalid remote branch string!"),
+            branch,
+            branch.match(/[^a-zA-Z0-9-_.:~@$^/\\s\\r\\n]/gi)
+          );
           return "PUSH_FAILED";
         }
 

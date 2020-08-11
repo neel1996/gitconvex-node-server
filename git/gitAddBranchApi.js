@@ -12,7 +12,7 @@ const fetchRepopath = require("../global/fetchGitRepoPath");
 
 const gitAddBranchApi = async (repoId, branchName) => {
   try {
-    if(branchName.match(/[^a-zA-Z0-9-_.:~@$^/]/gi)){
+    if(branchName.match(/[^a-zA-Z0-9-_.:~@$^/\\s\\r\\n]/gi)){
       throw new Error("Invalid branch name string")
     }
 
