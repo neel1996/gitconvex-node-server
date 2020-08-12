@@ -8,8 +8,8 @@ const testBranch = "JEST_TEST_BRANCH";
 describe("test module for - gitBranchDeleteApi", () => {
   test("positive test case for gitBranchDeleteApi", async () => {
     const repoId = await getSelectedRepoId();
-    const setBranchStatus = await gitSetBranchApi(repoId, "master");
     const addBranchStatus = await gitAddBranchApi(repoId, testBranch);
+    const setBranchStatus = await gitSetBranchApi(repoId, "master");
 
     const deleteBranchResult = await gitDeleteBranchApi(
       repoId,
