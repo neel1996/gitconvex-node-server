@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x,13.x,12.x]
+        node-version: [14.x, 13.x, 12.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -20,7 +20,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm install --global jest
+      - run: git clone https://github.com/neel1996/starfleet.git ./starfleet
+      - run: cd /home/runner/work/gitconvex-server/gitconvex-server
       - run: mkdir -p ./database && touch ./database/repo-datastore.json
       - run: echo '[{"databaseFile":"./database/repo-datastore.json","port":9001}]' > ./env_config.json
-      - run: echo '[{"id":"1593690333568","repoName":"JEST_REPO","repoPath":"."}]' > ./database/repo-datastore.json
+      - run: echo '[{"id":"1593690333568","repoName":"JEST_REPO","repoPath":"./starfleet"}]' > ./database/repo-datastore.json
       - run: npm run test && echo "Tests completed!"
