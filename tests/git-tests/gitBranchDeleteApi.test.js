@@ -1,25 +1,31 @@
 const { gitDeleteBranchApi } = require("../../git/gitBranchDeleteApi");
+const { gitAddBranchApi } = require("../../git/gitAddBranchApi");
 const { getSelectedRepoId } = require("../common/fetchTestRepoId");
 const { gitSetBranchApi } = require("../../git/gitSetBranch");
 
 const testBranch = "JEST_TEST_BRANCH";
 
-describe("test module for - gitBranchDeleteApi", async () => {
+describe("test module for - gitBranchDeleteApi", () => {
   test("positive test case for gitBranchDeleteApi", async () => {
     const repoId = await getSelectedRepoId();
-    await gitSetBranchApi(repoId, "master");
+    const setBranchStatus = await gitSetBranchApi(repoId, "master");
+    const addBranchStatus = await gitAddBranchApi(repoId, testBranch);
 
-    const addBranchResult = await gitDeleteBranchApi(repoId, testBranch, true);
+    const deleteBranchResult = await gitDeleteBranchApi(
+      repoId,
+      testBranch,
+      true
+    );
 
-    expect(addBranchResult).toBeTruthy();
-    expect(addBranchResult.status).toBe("BRANCH_DELETE_SUCCESS");
+    expect(deleteBranchResult).toBeTruthy();
+    expect(deleteBranchResult.status).toBe("BRANCH_DELETE_SUCCESS");
   });
 
   test("negative test case for gitAddBranchApi", async () => {
     const repoId = await getSelectedRepoId();
-    const addBranchResult = await gitDeleteBranchApi(repoId, ",./\\", true);
+    const deleteBranchResult = await gitDeleteBranchApi(repoId, ",./\\", true);
 
-    expect(addBranchResult).toBeTruthy();
-    expect(addBranchResult.status).toBe("BRANCH_DELETE_FAILED");
+    expect(deleteBranchResult).toBeTruthy();
+    expect(deleteBranchResult.status).toBe("BRANCH_DELETE_FAILED");
   });
 });

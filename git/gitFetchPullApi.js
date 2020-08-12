@@ -49,6 +49,7 @@ const gitFetchApi = async (repoId, remoteUrl = "", remoteBranch = "") => {
   const remoteName = await getRemoteName(repoId, remoteUrl);
   console.log("Selected remote name : ", remoteName);
 
+  remoteBranch = remoteBranch.trim();
   let invalidInput = false;
 
   if (
@@ -123,6 +124,8 @@ const gitFetchApi = async (repoId, remoteUrl = "", remoteBranch = "") => {
 const gitPullApi = async (repoId, remoteUrl, remoteBranch) => {
   const remoteName = await getRemoteName(repoId, remoteUrl);
   console.log("Selected remote name : ", remoteName);
+
+  remoteBranch = remoteBranch.trim();
 
   if (!remoteName) {
     console.log("NO REMOTE MATCHING THE URL");

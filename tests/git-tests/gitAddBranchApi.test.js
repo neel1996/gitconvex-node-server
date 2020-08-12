@@ -3,7 +3,7 @@ const { getSelectedRepoId } = require("../common/fetchTestRepoId");
 
 const testBranch = "JEST_TEST_BRANCH";
 
-describe("test module for - gitAddBranchApi", async () => {
+describe("test module for - gitAddBranchApi", () => {
   test("positive test case for gitAddBranchApi", async () => {
     const repoId = await getSelectedRepoId();
     const addBranchResult = await gitAddBranchApi(repoId, testBranch);

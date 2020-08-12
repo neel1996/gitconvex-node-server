@@ -30,6 +30,7 @@ const gitPushToRemoteApi = async (repoId, remoteHost, branch) => {
           .join("");
 
         const remoteName = filteredRemote.trim().split(/\s/gi)[0];
+        branch = branch.trim();
 
         if (branch.match(/[^a-zA-Z0-9-_.:~@$^/\\s\\n\\r]/gi)) {
           console.log(
