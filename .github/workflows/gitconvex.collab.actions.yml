@@ -21,7 +21,7 @@ jobs:
       - run: npm install
       - run: npm install --global jest
       - run: cd /home/runner/work/
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@master
         with:
           repository: neel1996/starfleet
           ref: master
