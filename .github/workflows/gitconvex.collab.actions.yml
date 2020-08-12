@@ -21,10 +21,7 @@ jobs:
       - run: npm install
       - run: npm install --global jest
       - run: cd /home/runner/work/
-      - uses: actions/checkout@master
-        with:
-          repository: neel1996/starfleet
-          ref: master
+      - run: git clone https://github.com/neel1996/starfleet.git 
       - run: cd /home/runner/work/gitconvex-server/gitconvex-server
       - run: mkdir -p ./database && touch ./database/repo-datastore.json
       - run: echo '[{"databaseFile":"./database/repo-datastore.json","port":9001}]' > ./env_config.json
