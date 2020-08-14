@@ -10,7 +10,7 @@ async function gitCommitLogToDb() {
     }
   });
 
-  console.log("INFO: SQLite DB module for commit logs");
+  console.log("INFO: Initiaitng SQLite DB module for commit logs");
 
   db.serialize(async () => {
     const repoList = await fetchRepoHandler();
@@ -55,13 +55,15 @@ async function gitCommitLogToDb() {
             commitList &&
               commitList.forEach(async (commitData) => {
                 commitData.forEach(async (item) => {
-                  const {
+                  let {
                     hash,
                     author,
                     commitTime,
                     commitMessage,
                     commitRelativeTime,
                   } = item;
+
+                  commitMessage = commitMessage.split('"').join('""');
 
                   if (hash) {
                     db.all(
@@ -72,9 +74,10 @@ async function gitCommitLogToDb() {
                           console.log(err);
                         }
                         if (!rows.length) {
+                          console.log(commitMessage);
                           console.log("INFO: Inserting new commit logs", item);
                           db.run(
-                            `INSERT INTO commitLog_${repoId}(hash,author,commit_date,commit_message,commit_relative_time) VALUES("${hash}", "${author}", "${commitTime}", "${commitMessage}.replace('"','\\"')", "${commitRelativeTime}")`,
+                            `INSERT INTO commitLog_${repoId}(hash,author,commit_date,commit_message,commit_relative_time) VALUES("${hash}", "${author}", "${commitTime}", "${commitMessage}", "${commitRelativeTime}")`,
                             (err) => {
                               if (err) {
                                 console.log(err);
