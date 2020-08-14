@@ -90,17 +90,10 @@ async function gitCommitLogHandler(repoId, skipLimit = 0) {
               if (stdout) {
                 return stdout.trim().split("\n").length;
               } else {
-                console.log(
-                  "Error occurred while fetching all changed files from commit"
-                );
                 return 0;
               }
             })
             .catch((err) => {
-              console.log(
-                "Error occurred while fetching all changed files from commit"
-              );
-
               return 0;
             });
           commit += "||" + commitFilesCount;
