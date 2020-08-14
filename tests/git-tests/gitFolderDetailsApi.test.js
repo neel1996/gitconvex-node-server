@@ -3,9 +3,8 @@ const { getSelectedRepoId } = require("../common/fetchTestRepoId");
 
 test("Test module for - gitFolderDetailsApi", async () => {
   const repoId = await getSelectedRepoId();
-  const { gitFileBasedCommit, gitTrackedFiles } = await (
-    await gitFetchFolderContentApi(repoId, ".")
-  ).gitFolderContent;
+  const { gitFolderContent } = await gitFetchFolderContentApi(repoId, ".");
+  const { gitFileBasedCommit, gitTrackedFiles } = gitFolderContent;
 
   expect(typeof gitFileBasedCommit).toBe("object");
   expect(gitFileBasedCommit.length).toBeGreaterThan(0);
