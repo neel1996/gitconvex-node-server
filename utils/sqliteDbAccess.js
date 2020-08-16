@@ -23,6 +23,7 @@ async function gitCommitLogToDb() {
 
         await gitCommitLogHandler(repoId, 0)
           .then(async (res) => {
+            inserToDbHandler(Promise.all(res.commits), db, repoId);
             let totalCommits = res.totalCommits / 10 + 1;
             let skipLimit = 10;
 
@@ -32,17 +33,51 @@ async function gitCommitLogToDb() {
               );
             }
 
-            for (let i = 0; i <= totalCommits; i++) {
-              skipLimit = i * 10;
+            db.get(
+              `SELECT count(*) as rowCount from commitLog_${repoId}`,
+              [],
+              async (err, row) => {
+                if (err) {
+                  console.log("ERROR: ", err);
+                } else {
+                  console.log(
+                    "INFO: Total commits in repo : ",
+                    repoId,
+                    res.totalCommits
+                  );
+                  console.log(
+                    "INFO: Total commits in Database commitLog_",
+                    repoId,
+                    row.rowCount
+                  );
 
-              await gitCommitLogHandler(repoId, skipLimit)
-                .then((res) => {
-                  inserToDbHandler(Promise.all(res.commits), db, repoId);
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            }
+                  if (res.totalCommits === row.rowCount) {
+                    console.log(
+                      `INFO: commitLog_${repoId} Database is up to date`
+                    );
+                  } else {
+                    console.log(
+                      `INFO: Inserting new logs to commitLog_${repoId} Database`
+                    );
+                    for (let i = 0; i <= totalCommits; i++) {
+                      skipLimit = i * 10;
+
+                      await gitCommitLogHandler(repoId, skipLimit)
+                        .then((res) => {
+                          inserToDbHandler(
+                            Promise.all(res.commits),
+                            db,
+                            repoId
+                          );
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    }
+                  }
+                }
+              }
+            );
           })
           .catch((err) => {
             console.log(err);
@@ -50,6 +85,12 @@ async function gitCommitLogToDb() {
       });
   });
 }
+
+/**
+ * @param  {Array} commitArray - Array containing the commit logs
+ * @param  {Sqlite.Database} db - Sqlite DB instance
+ * @param  {String} repoId - Repo ID stored in the data file
+ */
 
 async function inserToDbHandler(commitArray, db, repoId) {
   // let commitArray = commitLogs && Promise.all(commitLogs);
@@ -77,11 +118,12 @@ async function inserToDbHandler(commitArray, db, repoId) {
         commitMessage,
         commitRelativeTime,
       } = commitData;
+      let insertTracker = 0;
 
       commitMessage = commitMessage.split('"').join('""');
 
       if (hash) {
-        db.all(
+        db.get(
           `SELECT hash from commitLog_${repoId} WHERE hash="${hash}" ORDER BY commit_date`,
           [],
           (err, rows) => {
@@ -89,6 +131,10 @@ async function inserToDbHandler(commitArray, db, repoId) {
               console.log(err);
             }
             if (rows && rows.length === 0) {
+              insertTracker++;
+              console.log(
+                `INFO: ${insertTracker} new commits added to the commit log Database`
+              );
               db.run(
                 `INSERT INTO commitLog_${repoId}(hash,author,commit_date,commit_message,commit_relative_time) VALUES("${hash}", "${author}", "${commitTime}", "${commitMessage}", "${commitRelativeTime}")`,
                 (err) => {
