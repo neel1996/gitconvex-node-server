@@ -17,7 +17,7 @@ async function gitFileBasedCommit(repoPath, fileItem) {
       }
 
       const splitString = stdout.split(" ");
-      return splitString.slice(1, splitString.length).join();
+      return splitString.slice(1, splitString.length).join(" ");
     })
     .catch((err) => {
       console.log(err);

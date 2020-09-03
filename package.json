@@ -38,6 +38,7 @@
     "express-graphql": "^0.9.0",
     "graphiql": "^0.17.5",
     "graphql": "^14.6.0",
+    "istextorbinary": "^5.10.0",
     "sqlite3": "^5.0.0"
   },
   "devDependencies": {

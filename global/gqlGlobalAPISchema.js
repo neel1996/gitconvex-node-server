@@ -106,8 +106,9 @@ const globalAPISchema = new buildSchema(
 
         type langType{
             language: String
-            commit: String
+            fileCommit: String
             fileData: [String!]
+            prism: String
         }
 
         type GitConvexMutation{
