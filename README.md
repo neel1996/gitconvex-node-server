@@ -35,6 +35,7 @@ Fork the repo and raise a new Pull Request to merge your branch with the `develo
 ```
 ├── API
 │   ├── addRepoApi.js
+│   ├── codeFileViewApi.js
 │   ├── commitLogSearchApi.js
 │   ├── deleteRepoApi.js
 │   ├── fetchRepoApi.js
@@ -50,6 +51,7 @@ Fork the repo and raise a new Pull Request to merge your branch with the `develo
 │   ├── gitCommitLogSearchApi.js
 │   ├── gitCommitLogsAPI.js
 │   ├── gitFetchPullApi.js
+│   ├── gitFileBasedCommit.js
 │   ├── gitFileDifferenceAPI.js
 │   ├── gitFolderDetailsApi.js
 │   ├── gitGetStagedFilesAPI.js
