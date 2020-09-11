@@ -1,6 +1,6 @@
 {
-  "name": "gitconvex",
-  "version": "1.1.4",
+  "name": "gitconvex-server",
+  "version": "1.2.0",
   "description": "Web UI client for managing git repos on the go",
   "main": "server.js",
   "bin": {
@@ -22,14 +22,14 @@
     "git",
     "desktop"
   ],
-  "author": "unicorns",
-  "license": "Apache License 2.0",
+  "author": "itassistors",
+  "license": "Apache 2.0",
   "bugs": {
     "url": "https://github.com/neel1996/gitconvex-server/issues"
   },
   "homepage": "https://github.com/neel1996/gitconvex-server#readme",
   "dependencies": {
-    "@itassistors/langline": "0.0.2",
+    "@itassistors/langline": "^1.0.0",
     "axios": "^0.19.2",
     "child_process": "^1.0.2",
     "chokidar": "^3.4.2",
@@ -38,12 +38,12 @@
     "express-graphql": "^0.9.0",
     "graphiql": "^0.17.5",
     "graphql": "^14.6.0",
-    "istextorbinary": "^5.10.0",
+    "istextorbinary": "^5.11.0",
     "sqlite3": "^5.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.7",
-    "jest": "^26.1.0"
+    "@types/jest": "^26.0.13",
+    "jest": "^26.4.2"
   },
   "jest": {
     "testPathIgnorePatterns": [
