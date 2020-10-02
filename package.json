@@ -1,6 +1,6 @@
 {
   "name": "gitconvex-server",
-  "version": "1.2.0",
+  "version": "1.1.6",
   "description": "Web UI client for managing git repos on the go",
   "main": "server.js",
   "bin": {
