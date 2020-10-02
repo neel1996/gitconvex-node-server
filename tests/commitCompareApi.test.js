@@ -6,16 +6,14 @@ describe("Test module for commitCompareApi", () => {
   const compareCommit = "f0dfea0";
 
   test("commitCompareApi - positive scenario", async () => {
-    const repoId = await getSelectedRepoId();
-    const result = await commitCompareApi(repoId, baseCommit, compareCommit);
+    const result = await commitCompareApi(".", baseCommit, compareCommit);
 
     expect(result.message).toBeFalsy();
     expect(result.difference).toBeTruthy();
   });
 
   test("commitCompareApi - negative scenario", async () => {
-    const repoId = await getSelectedRepoId();
-    const result = await commitCompareApi(repoId, "DUMMY", "DUMMY_1");
+    const result = await commitCompareApi(".", "DUMMY", "DUMMY_1");
 
     expect(result.message).toBeTruthy();
   });
