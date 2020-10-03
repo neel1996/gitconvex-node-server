@@ -35,7 +35,9 @@ Fork the repo and raise a new Pull Request to merge your branch with the `develo
 ```
 ├── API
 │   ├── addRepoApi.js
+│   ├── branchCompareApi.js
 │   ├── codeFileViewApi.js
+│   ├── commitCompareApi.js
 │   ├── commitLogSearchApi.js
 │   ├── deleteRepoApi.js
 │   ├── fetchRepoApi.js
@@ -45,8 +47,10 @@ Fork the repo and raise a new Pull Request to merge your branch with the `develo
 ├── git
 │   ├── gitAddBranchApi.js
 │   ├── gitAddRemoteApi.js
+│   ├── gitBranchCompare.js
 │   ├── gitBranchDeleteApi.js
 │   ├── gitCommitChangesAPI.js
+│   ├── gitCommitCompareApi.js
 │   ├── gitCommitFilesApi.js
 │   ├── gitCommitLogSearchApi.js
 │   ├── gitCommitLogsAPI.js
@@ -92,6 +96,8 @@ Fork the repo and raise a new Pull Request to merge your branch with the `develo
     ├── getEnvData.js
     ├── repoChangeListener.js
     └── sqliteDbAccess.js
+
+8 directories, 55 files
     
 ```
 
