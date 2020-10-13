@@ -1,5 +1,5 @@
 # gitconvex node js project
-This is the front end node js source for the [gitconvex](https://github.com/neel1996/gitconvex-package) project.
+This is the back end node js source for the [gitconvex](https://github.com/neel1996/gitconvex-package) project.
 
 <p align="center">
     <img src="https://user-images.githubusercontent.com/47709856/87227374-23c91180-c3b8-11ea-80a9-4ff0e9fcb1ec.png" width="280">
