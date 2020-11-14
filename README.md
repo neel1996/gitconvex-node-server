@@ -1,4 +1,9 @@
 # gitconvex node js project
+
+# Discontinued Repo
+
+> This repo is archived and changes will not be accepted anymore. The backend for gitconvex has been rewritten in golang and the latest repo can be found [here](https://github.com/neel1996/gitconvex-server)
+
 This is the back end node js source for the [gitconvex](https://github.com/neel1996/gitconvex-package) project.
 
 <p align="center">
